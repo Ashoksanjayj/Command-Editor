@@ -191,7 +191,7 @@
 
     .settings-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
       padding: 18px 20px 20px;
     }
@@ -424,6 +424,14 @@
           <span class="setting-label">Repeat</span>
           <input id="repeat" type="number" min="1" step="1" value="1">
         </label>
+        <label class="setting" for="max-error">
+          <span class="setting-label">Max error</span>
+          <input id="max-error" type="number" min="0" step="1" value="1">
+        </label>
+        <div class="setting toggle-setting">
+          <span class="setting-label">Delete pass</span>
+          <label class="toggle-row"><input id="delete-pass-enabled" type="checkbox" checked> Enable delete pass</label>
+        </div>
         <div class="setting toggle-setting">
           <span class="setting-label">Farm</span>
           <label class="toggle-row"><input id="farm-enabled" type="checkbox"> Enable farm options</label>
@@ -465,6 +473,8 @@
     const dumpEnabled = document.querySelector('#dump-enabled');
     const dumpValue = document.querySelector('#dump-value');
     const repeatInput = document.querySelector('#repeat');
+    const maxErrorInput = document.querySelector('#max-error');
+    const deletePassEnabled = document.querySelector('#delete-pass-enabled');
     const farmEnabled = document.querySelector('#farm-enabled');
     const farmOptions = [
       ['--use-local-disk', 'off'],
@@ -479,7 +489,9 @@
       '--seed': { value: '27205', element: seedValue },
       '--dump_on': { value: '1' },
       '--verbosity': { value: 'UVM_MEDIUM' },
-      '--repeat': { value: '1' }
+      '--repeat': { value: '1' },
+      '--max_error': { value: '1' },
+      '--delete_pass_test': { value: '1' }
     };
 
     function tokenize(command) {
@@ -571,11 +583,18 @@
       const values = {
         '--verbosity': verbosityInput.value,
         '--repeat': repeatInput.value || '1',
+        '--max_error': maxErrorInput.value || '1',
+        '--delete_pass_test': deletePassEnabled.checked ? '1' : '0',
         '--seed': seedValue.value,
         '--dump_on': dumpEnabled.checked ? '1' : '0'
       };
       const enabled = {
-        '--seed': seedEnabled.checked
+        '--seed': seedEnabled.checked,
+        '--verbosity': true,
+        '--repeat': true,
+        '--max_error': true,
+        '--delete_pass_test': true,
+        '--dump_on': true
       };
 
       for (const option of options) {
@@ -612,6 +631,10 @@
           if (!option) options.push({ name, value: setting.value, hasValue: true, enabled: true });
           if (setting.element) setting.element.value = option?.value || setting.value;
         }
+        const maxErrorOption = parsed.find((option) => option.name === '--max_error');
+        maxErrorInput.value = maxErrorOption?.value || '1';
+        const deletePassOption = parsed.find((option) => option.name === '--delete_pass_test');
+        deletePassEnabled.checked = !deletePassOption || deletePassOption.value !== '0';
         verbosityInput.value = 'UVM_MEDIUM';
         seedEnabled.checked = parsed.some((option) => option.name === '--seed');
         dumpEnabled.checked = true;
@@ -641,6 +664,8 @@
       renderOutput();
     });
     repeatInput.addEventListener('input', renderOutput);
+    maxErrorInput.addEventListener('input', renderOutput);
+    deletePassEnabled.addEventListener('change', renderOutput);
     farmEnabled.addEventListener('change', renderOutput);
 
     document.querySelector('#copy-button').addEventListener('click', async (event) => {
