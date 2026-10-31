@@ -10,14 +10,14 @@
       color-scheme: light;
       --ink: #17231f;
       --muted: #64736d;
-      --line: #d7dfd9;
-      --paper: #f3f5ef;
-      --panel: #fffefa;
-      --green: #176b4a;
-      --green-dark: #0e4b35;
-      --lime: #d4ef76;
+      --line: #d7dfda;
+      --paper: #edf1ee;
+      --panel: #ffffff;
+      --green: #28684f;
+      --green-dark: #194d3a;
+      --lime: #c4dfcf;
       --coral: #c85c45;
-      --code: #17221f;
+      --code: #1d2925;
       --code-ink: #edf4ed;
       font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
       font-synthesis: none;
@@ -30,12 +30,6 @@
       margin: 0;
       color: var(--ink);
       background-color: var(--paper);
-      background-image: linear-gradient(135deg, rgba(23, 107, 74, .035) 25%, transparent 25%),
-        linear-gradient(225deg, rgba(23, 107, 74, .035) 25%, transparent 25%),
-        linear-gradient(45deg, rgba(23, 107, 74, .035) 25%, transparent 25%),
-        linear-gradient(315deg, rgba(23, 107, 74, .035) 25%, var(--paper) 25%);
-      background-position: 16px 0, 16px 0, 0 0, 0 0;
-      background-size: 32px 32px;
     }
 
     button, input, select, textarea { font: inherit; }
@@ -43,7 +37,7 @@
     .shell {
       width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 38px 0 56px;
+      padding: 32px 0 48px;
     }
 
     .masthead {
@@ -59,54 +53,21 @@
       color: var(--green);
       font-size: 12px;
       font-weight: 800;
-      letter-spacing: 1.3px;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(30px, 5vw, 46px);
-      font-weight: 500;
+      font-size: 34px;
+      font-weight: 750;
       line-height: 1.05;
-    }
-
-    .intro {
-      max-width: 620px;
-      margin: 11px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      flex: 0 0 auto;
-      margin-top: 4px;
-      padding: 8px 11px;
-      border: 1px solid #bfd4c6;
-      border-radius: 4px;
-      background: #e7f2e8;
-      color: var(--green-dark);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .status::before {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #3a9a64;
-      content: "";
     }
 
     .panel {
       border: 1px solid var(--line);
       border-radius: 6px;
       background: var(--panel);
-      box-shadow: 0 8px 28px rgba(34, 52, 43, .055);
+      box-shadow: 0 1px 3px rgba(25, 45, 35, .045);
     }
 
     .source-panel { padding: 20px; }
@@ -123,12 +84,6 @@
       margin: 0;
       font-size: 16px;
       font-weight: 750;
-    }
-
-    .section-note, .field-note {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
     }
 
     textarea, .text-input, select, .number-input {
@@ -187,8 +142,6 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .controls-heading .section-note { margin: 5px 0 0; }
-
     .settings-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -207,7 +160,6 @@
       color: #53625a;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: .7px;
       text-transform: uppercase;
     }
 
@@ -248,6 +200,8 @@
 
     .seed-control-row .toggle-row { flex: 1; }
     .seed-control-row .seed-value { flex: 0 0 100px; width: 100px; }
+
+    .farm-setting { grid-column: span 2; }
 
     .fixed-value {
       color: var(--green-dark);
@@ -308,24 +262,25 @@
 
     .output-heading h2 { color: white; }
     .output-heading .section-note { margin-top: 4px; color: #aab8b0; }
-    .copy-button { min-width: 96px; border-color: var(--lime); background: var(--lime); color: #21301f; }
-    .copy-button:hover { background: #e2f79c; }
+    .copy-button { min-width: 96px; border-color: var(--green-dark); background: var(--green-dark); color: #fff; }
+    .copy-button:hover { background: var(--green); }
 
     #output {
       display: block;
       width: 100%;
-      min-height: 94px;
+      min-height: 112px;
       margin: 0;
       padding: 18px;
       border: 0;
       resize: vertical;
+      overflow-x: auto;
       background: transparent;
       color: #e6f4d0;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: 13px;
       line-height: 1.75;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
+      overflow-wrap: normal;
+      white-space: pre;
     }
 
     #output:focus {
@@ -351,7 +306,6 @@
     @media (max-width: 700px) {
       .shell { width: min(100% - 24px, 560px); padding-top: 24px; }
       .masthead { display: block; }
-      .status { margin-top: 15px; }
       .source-panel { padding: 15px; }
       .controls-heading { padding: 15px; }
       .settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 15px; }
@@ -362,6 +316,8 @@
 
     @media (max-width: 420px) {
       .settings-grid { grid-template-columns: minmax(0, 1fr); }
+      .farm-setting { grid-column: auto; }
+      h1 { font-size: 30px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -373,17 +329,14 @@
   <main class="shell">
     <header class="masthead">
       <div>
-        <p class="eyebrow">Simulation utilities / command line</p>
+        <p class="eyebrow">Regtest / Command Line</p>
         <h1>Regtest command builder</h1>
-        <p class="intro">Tune a source argument list and turn it into a ready-to-run regtest command.</p>
       </div>
-      <span class="status">Local only</span>
     </header>
 
     <section class="panel source-panel" aria-labelledby="source-title">
       <div class="section-heading">
         <h2 id="source-title">Source command</h2>
-        <span class="section-note">Paste arguments or a full command</span>
       </div>
       <textarea id="source" spellcheck="false" aria-label="Source command"></textarea>
       <div class="source-actions">
@@ -395,7 +348,6 @@
     <section class="panel controls-panel" aria-labelledby="controls-title">
       <div class="controls-heading">
         <h2 id="controls-title">Run settings</h2>
-        <p class="section-note">Adjust only the settings used for this run. Other command options stay unchanged.</p>
       </div>
       <div class="settings-grid">
         <label class="setting" for="verbosity">
@@ -432,7 +384,7 @@
           <span class="setting-label">Delete pass</span>
           <label class="toggle-row"><input id="delete-pass-enabled" type="checkbox" checked> Enable delete pass</label>
         </div>
-        <div class="setting toggle-setting">
+        <div class="setting toggle-setting farm-setting">
           <span class="setting-label">Farm</span>
           <label class="toggle-row"><input id="farm-enabled" type="checkbox"> Enable farm options</label>
         </div>
@@ -443,7 +395,6 @@
       <div class="output-heading">
         <div>
           <h2 id="output-title">Executable command</h2>
-          <div class="section-note">Edit the command before copying</div>
         </div>
         <button class="copy-button" id="copy-button" type="button" title="Copy command">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -456,9 +407,6 @@
       <textarea id="output" aria-label="Editable executable command" spellcheck="false" wrap="soft"></textarea>
     </section>
 
-    <div class="footer-note">
-      <span>Generated locally in your browser. Review the command before running it.</span>
-    </div>
   </main>
 
   <script>
