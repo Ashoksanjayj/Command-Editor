@@ -272,15 +272,15 @@
       margin: 0;
       padding: 18px;
       border: 0;
-      resize: vertical;
-      overflow-x: auto;
+      resize: none;
+      overflow: hidden;
       background: transparent;
       color: #e6f4d0;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: 13px;
       line-height: 1.75;
-      overflow-wrap: normal;
-      white-space: pre;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
     #output:focus {
@@ -525,6 +525,11 @@
       return `"${String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\$/g, '\\$').replace(/`/g, '\\`')}"`;
     }
 
+    function resizeOutput() {
+      output.style.height = 'auto';
+      output.style.height = `${output.scrollHeight}px`;
+    }
+
     function renderOutput() {
       const args = [];
       const emitted = new Set();
@@ -567,6 +572,7 @@
         }
       }
       output.value = `reg_exe${args.length ? ` ${args.join(' ')}` : ''} | tee out.txt &`;
+      resizeOutput();
     }
 
     function loadSource() {
@@ -615,6 +621,8 @@
     maxErrorInput.addEventListener('input', renderOutput);
     deletePassEnabled.addEventListener('change', renderOutput);
     farmEnabled.addEventListener('change', renderOutput);
+    output.addEventListener('input', resizeOutput);
+    window.addEventListener('resize', resizeOutput);
 
     document.querySelector('#copy-button').addEventListener('click', async (event) => {
       const label = event.currentTarget.querySelector('span');
