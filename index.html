@@ -239,6 +239,16 @@
       font-weight: 650;
     }
 
+    .seed-control-row {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .seed-control-row .toggle-row { flex: 1; }
+    .seed-control-row .seed-value { flex: 0 0 100px; width: 100px; }
+
     .fixed-value {
       color: var(--green-dark);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -401,7 +411,10 @@
         </label>
         <div class="setting toggle-setting">
           <span class="setting-label">Seed</span>
-          <label class="toggle-row"><input id="seed-enabled" type="checkbox" checked> Include <code class="fixed-value" id="seed-value">27205</code></label>
+          <div class="seed-control-row">
+            <label class="toggle-row" for="seed-enabled"><input id="seed-enabled" type="checkbox" checked> Include</label>
+            <input id="seed-value" class="seed-value" type="number" min="0" step="1" value="27205" aria-label="Seed value">
+          </div>
         </div>
         <div class="setting toggle-setting">
           <span class="setting-label">Dump</span>
@@ -558,7 +571,7 @@
       const values = {
         '--verbosity': verbosityInput.value,
         '--repeat': repeatInput.value || '1',
-        '--seed': seedValue.textContent,
+        '--seed': seedValue.value,
         '--dump_on': dumpEnabled.checked ? '1' : '0'
       };
       const enabled = {
@@ -597,7 +610,7 @@
         for (const [name, setting] of Object.entries(fixedOptions)) {
           const option = options.find((entry) => entry.name === name);
           if (!option) options.push({ name, value: setting.value, hasValue: true, enabled: true });
-          if (setting.element) setting.element.textContent = option?.value || setting.value;
+          if (setting.element) setting.element.value = option?.value || setting.value;
         }
         verbosityInput.value = 'UVM_MEDIUM';
         seedEnabled.checked = parsed.some((option) => option.name === '--seed');
@@ -622,6 +635,7 @@
 
     verbosityInput.addEventListener('change', renderOutput);
     seedEnabled.addEventListener('change', renderOutput);
+    seedValue.addEventListener('input', renderOutput);
     dumpEnabled.addEventListener('change', () => {
       dumpValue.textContent = `--dump_on=${dumpEnabled.checked ? '1' : '0'}`;
       renderOutput();
