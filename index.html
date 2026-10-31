@@ -302,15 +302,25 @@
     .copy-button:hover { background: #e2f79c; }
 
     #output {
+      display: block;
+      width: 100%;
       min-height: 94px;
       margin: 0;
       padding: 18px;
-      overflow-wrap: anywhere;
+      border: 0;
+      resize: vertical;
+      background: transparent;
       color: #e6f4d0;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: 13px;
       line-height: 1.75;
+      overflow-wrap: anywhere;
       white-space: pre-wrap;
+    }
+
+    #output:focus {
+      outline: 2px solid var(--lime);
+      outline-offset: -3px;
     }
 
     .footer-note {
@@ -412,7 +422,7 @@
       <div class="output-heading">
         <div>
           <h2 id="output-title">Executable command</h2>
-          <div class="section-note">reg_exe with output capture</div>
+          <div class="section-note">Edit the command before copying</div>
         </div>
         <button class="copy-button" id="copy-button" type="button" title="Copy command">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -422,7 +432,7 @@
           <span>Copy</span>
         </button>
       </div>
-      <pre id="output" aria-live="polite"></pre>
+      <textarea id="output" aria-label="Editable executable command" spellcheck="false" wrap="soft"></textarea>
     </section>
 
     <div class="footer-note">
@@ -570,7 +580,7 @@
           args.push(value === null ? name : `${name}=${quoteValue(value)}`);
         }
       }
-      output.textContent = `reg_exe${args.length ? ` ${args.join(' ')}` : ''} | tee out.txt &`;
+      output.value = `reg_exe${args.length ? ` ${args.join(' ')}` : ''} | tee out.txt &`;
     }
 
     function loadSource() {
@@ -616,14 +626,11 @@
     document.querySelector('#copy-button').addEventListener('click', async (event) => {
       const label = event.currentTarget.querySelector('span');
       try {
-        await navigator.clipboard.writeText(output.textContent);
+        await navigator.clipboard.writeText(output.value);
         label.textContent = 'Copied';
       } catch {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(output);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        output.focus();
+        output.select();
         label.textContent = 'Select & copy';
       }
       window.setTimeout(() => { label.textContent = 'Copy'; }, 1400);
