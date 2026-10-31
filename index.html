@@ -395,7 +395,7 @@
         </div>
         <div class="setting toggle-setting">
           <span class="setting-label">Dump</span>
-          <label class="toggle-row"><input id="dump-enabled" type="checkbox" checked> Include <code class="fixed-value" id="dump-value">0</code></label>
+          <label class="toggle-row"><input id="dump-enabled" type="checkbox" checked> Enable dump <code class="fixed-value" id="dump-value">--dump_on=1</code></label>
         </div>
         <label class="setting" for="repeat">
           <span class="setting-label">Repeat</span>
@@ -440,7 +440,7 @@
     const repeatInput = document.querySelector('#repeat');
     const fixedOptions = {
       '--seed': { value: '27205', element: seedValue },
-      '--dump_on': { value: '0', element: dumpValue },
+      '--dump_on': { value: '1' },
       '--verbosity': { value: 'UVM_MEDIUM' },
       '--repeat': { value: '1' }
     };
@@ -529,11 +529,10 @@
         '--verbosity': verbosityInput.value,
         '--repeat': repeatInput.value || '1',
         '--seed': seedValue.textContent,
-        '--dump_on': dumpValue.textContent
+        '--dump_on': dumpEnabled.checked ? '1' : '0'
       };
       const enabled = {
-        '--seed': seedEnabled.checked,
-        '--dump_on': dumpEnabled.checked
+        '--seed': seedEnabled.checked
       };
 
       for (const option of options) {
@@ -566,6 +565,7 @@
         verbosityInput.value = 'UVM_MEDIUM';
         seedEnabled.checked = true;
         dumpEnabled.checked = true;
+        dumpValue.textContent = '--dump_on=1';
         repeatInput.value = '1';
         parseError.textContent = '';
         renderOutput();
@@ -585,7 +585,10 @@
 
     verbosityInput.addEventListener('change', renderOutput);
     seedEnabled.addEventListener('change', renderOutput);
-    dumpEnabled.addEventListener('change', renderOutput);
+    dumpEnabled.addEventListener('change', () => {
+      dumpValue.textContent = `--dump_on=${dumpEnabled.checked ? '1' : '0'}`;
+      renderOutput();
+    });
     repeatInput.addEventListener('input', renderOutput);
 
     document.querySelector('#copy-button').addEventListener('click', async (event) => {
