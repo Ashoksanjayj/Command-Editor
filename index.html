@@ -8,17 +8,16 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #17231f;
-      --muted: #64736d;
-      --line: #d7dfda;
-      --paper: #edf1ee;
+      --ink: #142b49;
+      --muted: #576b83;
+      --line: #d1dce9;
+      --paper: #f2f5fa;
       --panel: #ffffff;
-      --green: #28684f;
-      --green-dark: #194d3a;
-      --lime: #c4dfcf;
-      --coral: #c85c45;
-      --code: #1d2925;
-      --code-ink: #edf4ed;
+      --blue: #005eb8;
+      --blue-dark: #002b5c;
+      --focus: #a7d5ff;
+      --code: #002b5c;
+      --code-ink: #ffffff;
       font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
       font-synthesis: none;
       text-rendering: optimizeLegibility;
@@ -30,6 +29,7 @@
       margin: 0;
       color: var(--ink);
       background-color: var(--paper);
+      border-top: 6px solid var(--blue-dark);
     }
 
     button, input, select, textarea { font: inherit; }
@@ -50,7 +50,7 @@
 
     .eyebrow {
       margin: 0 0 8px;
-      color: var(--green);
+      color: var(--blue);
       font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
@@ -67,7 +67,7 @@
       border: 1px solid var(--line);
       border-radius: 6px;
       background: var(--panel);
-      box-shadow: 0 1px 3px rgba(25, 45, 35, .045);
+      box-shadow: 0 1px 3px rgba(0, 43, 92, .045);
     }
 
     .source-panel { padding: 20px; }
@@ -89,15 +89,15 @@
     textarea, .text-input, select, .number-input {
       width: 100%;
       min-width: 0;
-      border: 1px solid #cbd5ce;
+      border: 1px solid var(--line);
       border-radius: 4px;
       background: #fff;
       color: var(--ink);
     }
 
     textarea:focus, .text-input:focus, select:focus, .number-input:focus {
-      outline: 3px solid rgba(23, 107, 74, .16);
-      border-color: var(--green);
+      outline: 3px solid rgba(0, 94, 184, .16);
+      border-color: var(--blue);
     }
 
     #source {
@@ -127,13 +127,19 @@
       padding: 5px 0;
       border: 0;
       background: transparent;
-      color: var(--green-dark);
+      color: var(--blue-dark);
       cursor: pointer;
       font-size: 12px;
       font-weight: 700;
       text-decoration: underline;
       text-underline-offset: 3px;
     }
+
+    .source-buttons { display: flex; align-items: center; gap: 18px; }
+
+    .clear-button { display: inline-flex; align-items: center; gap: 6px; }
+
+    .clear-button::before { content: '\00d7'; font-size: 19px; line-height: 1; }
 
     .controls-panel { margin-top: 16px; overflow: hidden; }
 
@@ -157,7 +163,7 @@
     }
 
     .setting-label {
-      color: #53625a;
+      color: var(--muted);
       font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
@@ -167,7 +173,7 @@
       width: 100%;
       height: 40px;
       padding: 0 10px;
-      border: 1px solid #cbd5ce;
+      border: 1px solid var(--line);
       border-radius: 4px;
       background: white;
       color: var(--ink);
@@ -175,8 +181,8 @@
     }
 
     .setting select:focus, .setting input[type="number"]:focus {
-      outline: 3px solid rgba(23, 107, 74, .16);
-      border-color: var(--green);
+      outline: 3px solid rgba(0, 94, 184, .16);
+      border-color: var(--blue);
     }
 
     .toggle-setting { justify-content: flex-start; }
@@ -204,7 +210,7 @@
     .farm-setting { grid-column: span 2; }
 
     .fixed-value {
-      color: var(--green-dark);
+      color: var(--blue-dark);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: 12px;
       font-weight: 600;
@@ -218,9 +224,9 @@
       gap: 8px;
       min-height: 38px;
       padding: 0 13px;
-      border: 1px solid var(--green-dark);
+      border: 1px solid var(--blue-dark);
       border-radius: 4px;
-      background: var(--green-dark);
+      background: var(--blue-dark);
       color: white;
       cursor: pointer;
       font-size: 13px;
@@ -228,27 +234,27 @@
       white-space: nowrap;
     }
 
-    .copy-button:hover { background: #e2f79c; }
+    .copy-button:hover { background: var(--blue); }
     .copy-button:focus-visible, .text-button:focus-visible {
-      outline: 3px solid rgba(23, 107, 74, .24);
+      outline: 3px solid rgba(0, 94, 184, .24);
       outline-offset: 2px;
     }
 
     input[type="checkbox"] {
       width: 17px;
       height: 17px;
-      accent-color: var(--green);
+      accent-color: var(--blue);
       cursor: pointer;
     }
 
     .output-panel {
       margin-top: 16px;
       overflow: hidden;
-      border: 1px solid #253a31;
+      border: 1px solid var(--blue-dark);
       border-radius: 6px;
       background: var(--code);
       color: var(--code-ink);
-      box-shadow: 0 8px 28px rgba(34, 52, 43, .08);
+      box-shadow: 0 8px 28px rgba(0, 43, 92, .08);
     }
 
     .output-heading {
@@ -257,13 +263,14 @@
       justify-content: space-between;
       gap: 16px;
       padding: 15px 18px;
-      border-bottom: 1px solid #34463e;
+      border-bottom: 1px solid #42658c;
     }
 
     .output-heading h2 { color: white; }
-    .output-heading .section-note { margin-top: 4px; color: #aab8b0; }
-    .copy-button { min-width: 96px; border-color: var(--green-dark); background: var(--green-dark); color: #fff; }
-    .copy-button:hover { background: var(--green); }
+    .output-heading .section-note { margin-top: 4px; color: #c8dcef; }
+    .copy-button { min-width: 96px; }
+    .output-heading .copy-button { border-color: #ffffff; background: #ffffff; color: var(--blue-dark); }
+    .output-heading .copy-button:hover { background: #deedfb; }
 
     #output {
       display: block;
@@ -275,7 +282,7 @@
       resize: none;
       overflow: hidden;
       background: transparent;
-      color: #e6f4d0;
+      color: var(--code-ink);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: 13px;
       line-height: 1.75;
@@ -284,7 +291,7 @@
     }
 
     #output:focus {
-      outline: 2px solid var(--lime);
+      outline: 2px solid var(--focus);
       outline-offset: -3px;
     }
 
@@ -329,7 +336,7 @@
   <main class="shell">
     <header class="masthead">
       <div>
-        <p class="eyebrow">Regtest / Command Line</p>
+        <p class="eyebrow">Altera / Regtest</p>
         <h1>Regtest command builder</h1>
       </div>
     </header>
@@ -341,7 +348,10 @@
       <textarea id="source" spellcheck="false" aria-label="Source command"></textarea>
       <div class="source-actions">
         <span class="error" id="parse-error" role="status" aria-live="polite"></span>
-        <button class="text-button" id="reset-button" type="button">Load example</button>
+        <div class="source-buttons">
+          <button class="text-button clear-button" id="clear-button" type="button" title="Clear source command">Clear</button>
+          <button class="text-button" id="reset-button" type="button">Load example</button>
+        </div>
       </div>
     </section>
 
@@ -604,6 +614,12 @@
     source.value = example;
     loadSource();
     source.addEventListener('input', loadSource);
+
+    document.querySelector('#clear-button').addEventListener('click', () => {
+      source.value = '';
+      loadSource();
+      source.focus();
+    });
 
     document.querySelector('#reset-button').addEventListener('click', () => {
       source.value = example;
