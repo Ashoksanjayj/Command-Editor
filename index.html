@@ -135,11 +135,19 @@
       text-underline-offset: 3px;
     }
 
-    .source-buttons { display: flex; align-items: center; gap: 18px; }
+    .clear-button {
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid var(--blue-dark);
+      border-radius: 4px;
+      background: var(--blue-dark);
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-    .clear-button { display: inline-flex; align-items: center; gap: 6px; }
-
-    .clear-button::before { content: '\00d7'; font-size: 19px; line-height: 1; }
+    .clear-button:hover { background: var(--blue); border-color: var(--blue); }
 
     .controls-panel { margin-top: 16px; overflow: hidden; }
 
@@ -348,10 +356,7 @@
       <textarea id="source" spellcheck="false" aria-label="Source command"></textarea>
       <div class="source-actions">
         <span class="error" id="parse-error" role="status" aria-live="polite"></span>
-        <div class="source-buttons">
-          <button class="text-button clear-button" id="clear-button" type="button" title="Clear source command">Clear</button>
-          <button class="text-button" id="reset-button" type="button">Load example</button>
-        </div>
+        <button class="clear-button" id="clear-button" type="button" title="Clear source command">Clear</button>
       </div>
     </section>
 
@@ -619,11 +624,6 @@
       source.value = '';
       loadSource();
       source.focus();
-    });
-
-    document.querySelector('#reset-button').addEventListener('click', () => {
-      source.value = example;
-      loadSource();
     });
 
     verbosityInput.addEventListener('change', renderOutput);
